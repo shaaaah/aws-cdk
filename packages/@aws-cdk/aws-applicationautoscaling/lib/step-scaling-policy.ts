@@ -1,6 +1,7 @@
-import { findAlarmThresholds, normalizeIntervals } from '@aws-cdk/aws-autoscaling-common';
 import cloudwatch = require('@aws-cdk/aws-cloudwatch');
 import cdk = require('@aws-cdk/cdk');
+import { ScalingInterval } from './interval-types';
+import { findAlarmThresholds, normalizeIntervals } from './interval-utils';
 import { ScalableTarget } from './scalable-target';
 import { AdjustmentType, MetricAggregationType, StepScalingAction } from './step-scaling-action';
 
@@ -141,43 +142,6 @@ export class StepScalingPolicy extends cdk.Construct {
       this.upperAlarm.onAlarm(this.upperAction);
     }
   }
-}
-
-/**
- * A range of metric values in which to apply a certain scaling operation
- */
-export interface ScalingInterval {
-  /**
-   * The lower bound of the interval.
-   *
-   * The scaling adjustment will be applied if the metric is higher than this value.
-   *
-   * @default Threshold automatically derived from neighbouring intervals
-   */
-  lower?: number;
-
-  /**
-   * The upper bound of the interval.
-   *
-   * The scaling adjustment will be applied if the metric is lower than this value.
-   *
-   * @default Threshold automatically derived from neighbouring intervals
-   */
-  upper?: number;
-
-  /**
-   * The capacity adjustment to apply in this interval
-   *
-   * The number is interpreted differently based on AdjustmentType:
-   *
-   * - ChangeInCapacity: add the adjustment to the current capacity.
-   *  The number can be positive or negative.
-   * - PercentChangeInCapacity: add or remove the given percentage of the current
-   *   capacity to itself. The number can be in the range [-100..100].
-   * - ExactCapacity: set the capacity to this number. The number must
-   *   be positive.
-   */
-  change: number;
 }
 
 function aggregationTypeFromMetric(metric: cloudwatch.Metric): MetricAggregationType {

@@ -1,4 +1,4 @@
-import { ScalingInterval } from "./types";
+import { ScalingInterval } from "./interval-types";
 
 export interface CompleteScalingInterval {
   lower: number;

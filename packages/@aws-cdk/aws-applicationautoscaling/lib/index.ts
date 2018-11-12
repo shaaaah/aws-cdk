@@ -7,3 +7,4 @@ export * from './scalable-target';
 export * from './step-scaling-policy';
 export * from './step-scaling-action';
 export * from './target-tracking-scaling-policy';
+export * from './interval-types';
